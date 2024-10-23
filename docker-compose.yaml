@@ -94,6 +94,19 @@ services:
     depends_on:
       - elasticsearch
 
+  notifications:
+    build:
+      context: ../notifications
+    ports:
+      - "5001:5000"
+    command: npm run start
+    env_file: ../notifications/.env
+    depends_on:
+      - rabbitmq
+      - elasticsearch
+    restart: always
+    container_name: notifications
+
 volumes:
   redis-data:
   mongo-data:
