@@ -108,9 +108,9 @@ services:
       - "5001:5000"
     command: npm run start
     env_file: ../notifications/.env
+    dockerfile: Dockerfile.dev
     depends_on:
       - rabbitmq
-      - elasticsearch
     restart: always
     container_name: notifications
 
