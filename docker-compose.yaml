@@ -104,11 +104,11 @@ services:
   notifications:
     build:
       context: ../notifications
+      dockerfile: Dockerfile.dev
     ports:
       - "5001:5000"
     command: npm run start
     env_file: ../notifications/.env
-    dockerfile: Dockerfile.dev
     depends_on:
       - rabbitmq
     restart: always
