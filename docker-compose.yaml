@@ -113,6 +113,16 @@ services:
     restart: always
     container_name: notifications
 
+  gateway:
+    build:
+      context: ../gateway
+      dockerfile: Dockerfile.dev
+    ports:
+      - "5000:5000"
+    env_file: ../gateway/.env
+    restart: always
+    container_name: gateway
+
 volumes:
   redis-data:
   mongo-data:
