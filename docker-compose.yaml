@@ -147,6 +147,8 @@ services:
     container_name: auth
     networks:
       - servicesconnect
+    depends_on:
+      - mysql
 
 volumes:
   redis-data:
