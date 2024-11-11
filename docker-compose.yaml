@@ -160,6 +160,22 @@ services:
       - mysql
       - rabbitmq
 
+  users:
+    build:
+      context: ../users
+      dockerfile: Dockerfile.dev
+    ports:
+      - "5003:5000"
+
+    env_file: ../users/.env
+    restart: always
+    container_name: users
+    networks:
+      - servicesconnect
+    depends_on:
+      - mysql
+      - rabbitmq
+
 volumes:
   redis-data:
   mongo-data:
