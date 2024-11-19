@@ -177,16 +177,16 @@ services:
       - mysql
       - rabbitmq
 
-  projects:
+  project:
     build:
-      context: ../users
+      context: ../project
       dockerfile: Dockerfile.dev
     ports:
       - "5004:5000"
 
-    env_file: ../projects/.env
+    env_file: ../project/.env
     restart: always
-    container_name: projects
+    container_name: project
     networks:
       - servicesconnect
     depends_on:
