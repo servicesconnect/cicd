@@ -177,6 +177,22 @@ services:
       - mysql
       - rabbitmq
 
+  projects:
+    build:
+      context: ../users
+      dockerfile: Dockerfile.dev
+    ports:
+      - "5004:5000"
+
+    env_file: ../projects/.env
+    restart: always
+    container_name: projects
+    networks:
+      - servicesconnect
+    depends_on:
+      - mysql
+      - rabbitmq
+
 volumes:
   redis-data:
   mongo-data:
