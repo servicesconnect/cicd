@@ -193,6 +193,22 @@ services:
       - mysql
       - rabbitmq
 
+  order:
+    build:
+      context: ../order
+      dockerfile: Dockerfile.dev
+    ports:
+      - "5005:5000"
+
+    env_file: ../order/.env
+    restart: always
+    container_name: order
+    networks:
+      - servicesconnect
+    depends_on:
+      - mysql
+      - rabbitmq
+
 volumes:
   redis-data:
   mongo-data:
