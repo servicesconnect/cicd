@@ -137,6 +137,26 @@ services:
     depends_on:
       - elasticsearch
 
+  apmserver:
+    image: docker.elastic.co/apm/apm-server:8.11.0
+    container_name: apmserver
+    ports:
+      - 8200:8200
+    volumes:
+      - /apm-server/apm-server.yml:/usr/share/apm-server/apm-server.yml:ro
+    networks:
+      - elastic
+    command: >
+      apm-server -e
+        -E apm-server.rum.enabled=true
+        -E setup.kibana.host=kibana:5601
+        -E setup.template.settings.index.number_of_replicas=0
+        -E apm-server.kibana.enabled=true
+        -E apm-server.kibana.host=kibana:5601
+        -E apm-server.kibana.protocol=http
+        -E strict.perms=false
+        -E apm-server.auth.anonymous.enabled=true
+
   kibana:
     container_name: kibana
     image: docker.elastic.co/kibana/kibana:8.11.0
