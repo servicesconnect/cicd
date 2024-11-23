@@ -1,5 +1,5 @@
 apm-server:
-  host: "apmserver:8200"
+  host: "0.0.0.0:8200"
 
 auth:
   secret_token: ""
