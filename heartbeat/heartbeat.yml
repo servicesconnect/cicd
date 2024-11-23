@@ -1,0 +1,72 @@
+heartbeat.config.monitors:
+  path: ${path.config}/monitors.d/*.yml
+  reload.enabled: false
+  reload.period: 5s
+
+heartbeat.monitors:
+  - type: http
+    id: servicesconnect-api-gateway
+    name: Servicesconnect API Gateway Service
+    schedule: "@every 5s"
+    hosts: ["http://gateway:5000/gateway-health"]
+    check.request.method: GET
+    check.response.status: [200]
+
+  - type: http
+    id: servicesconnect-notification
+    name: Servicesconnect Notification Service
+    schedule: "@every 5s"
+    hosts: ["http://notifications:5000/notification-health"]
+    check.request.method: GET
+    check.response.status: [200]
+
+  - type: http
+    id: servicesconnect-auth
+    name: Servicesconnect Auth Service
+    schedule: "@every 5s"
+    hosts: ["http://auth:5000/auth-health"]
+    check.request.method: GET
+    check.response.status: [200]
+
+  - type: http
+    id: servicesconnect-users
+    name: Servicesconnect Users Service
+    schedule: "@every 5s"
+    hosts: ["http://users:5000/user-health"]
+    check.request.method: GET
+    check.response.status: [200]
+
+  - type: http
+    id: servicesconnect-project
+    name: Servicesconnect Project Service
+    schedule: "@every 5s"
+    hosts: ["http://project:5000/gig-health"]
+    check.request.method: GET
+    check.response.status: [200]
+
+  - type: http
+    id: servicesconnect-order
+    name: Servicesconnect Order Service
+    schedule: "@every 5s"
+    hosts: ["http://order:5000/order-health"]
+    check.request.method: GET
+    check.response.status: [200]
+
+  - type: http
+    id: servicesconnect-review
+    name: Servicesconnect Review Service
+    schedule: "@every 5s"
+    urls: ["http://review:5000/review-health"]
+    check.request.method: GET
+    check.response.status: [200]
+
+processors:
+  - add_cloud_metadata: ~
+  - add_docker_metadata: ~
+
+monitoring.enabled: true
+
+output.elasticsearch:
+  hosts: ["http://elasticsearch:9200"]
+  username: "elastic"
+  password: "admin1234"

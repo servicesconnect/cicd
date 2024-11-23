@@ -100,6 +100,43 @@ services:
       - elastic
       - servicesconnect
 
+  metricbeat:
+    container_name: metricbeat
+    image: docker.elastic.co/beats/metricbeat:8.11.0
+    user: root
+    ports:
+      - 5066:5066
+    networks:
+      - elastic
+      - servicesconnect
+    volumes:
+      - ./metricbeat/metricbeat.yml/:/usr/share/metricbeat/metricbeat.yml:ro
+      # docker module
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      # system module
+      - /sys/fs/cgroup:/hostfs/sys/fs/cgroup:ro
+      - /proc:/hostfs/proc:ro
+      - /:/hostfs:ro
+    command: ["--strict.perms=false", "-system.hostfs=/hostfs"]
+    depends_on:
+      - elasticsearch
+
+  heartbeat:
+    container_name: heartbeat
+    image: docker.elastic.co/beats/heartbeat:8.11.0
+    user: root
+    hostname: heartbeat
+    cap_add:
+      - NET_RAW
+    networks:
+      - elastic
+      - servicesconnect
+    command: ["--strict.perms=false"]
+    volumes:
+      - ./heartbeat/heartbeat.yml:/usr/share/heartbeat/heartbeat.yml:ro
+    depends_on:
+      - elasticsearch
+
   kibana:
     container_name: kibana
     image: docker.elastic.co/kibana/kibana:8.11.0
@@ -109,7 +146,7 @@ services:
       - ELASTICSEARCH_USERNAME=kibana_system
       - ELASTICSEARCH_PASSWORD=kibana
       - ELASTICSEARCH_SERVICEACCOUNT_TOKEN=A
-      - XPACK_FLEET_AGENTS_ELASTICSEARCH_HOSTS=["http://elasticsearch_container:9200"]
+      - XPACK_FLEET_AGENTS_ELASTICSEARCH_HOSTS=["http://elasticsearch:9200"]
     ports:
       - 5601:5601
     networks:
