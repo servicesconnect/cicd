@@ -208,6 +208,21 @@ services:
     depends_on:
       - mysql
       - rabbitmq
+  review:
+    build:
+      context: ../review
+      dockerfile: Dockerfile.dev
+    ports:
+      - "5006:5000"
+
+    env_file: ../review/.env
+    restart: always
+    container_name: review
+    networks:
+      - servicesconnect
+    depends_on:
+      - mysql
+      - rabbitmq
 
 volumes:
   redis-data:
