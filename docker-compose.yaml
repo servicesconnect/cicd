@@ -146,6 +146,7 @@ services:
       - ./apm-server/apm-server.yml:/usr/share/apm-server/apm-server.yml:ro
     networks:
       - elastic
+      - servicesconnect
     command: >
       apm-server -e
         -E apm-server.rum.enabled=true
